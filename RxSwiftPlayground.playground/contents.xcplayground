@@ -4,5 +4,6 @@
         <page name='Observable,subscribe'/>
         <page name='RxSwift(DisposeBag)playground'/>
         <page name='subjectplayground'/>
+        <page name='BehaviorRelay'/>
     </pages>
 </playground>
