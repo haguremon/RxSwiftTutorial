@@ -13,10 +13,10 @@ import RxSwift
 private let reuseIdentifier = "Cell"
 
 class PhotosCollectionViewController: UICollectionViewController {
-    //UIImageを取得
+    //UIImageを取得　input
     private let selectPhotoSubject = PublishSubject<UIImage>()
     
-    //購読できるようにする　selectPhoto.subscribe { image in  }
+    //　output　購読できるようにする　selectPhoto.subscribe { image in  }
     var selectPhoto: Observable<UIImage> {
         selectPhotoSubject.asObservable()
     }

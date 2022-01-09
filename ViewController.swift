@@ -11,8 +11,10 @@ import RxSwift
 class ViewController: UIViewController {
     
     let disposeBag = DisposeBag()
-    
+
     @IBOutlet weak var selectImageView: UIImageView!
+    
+    @IBOutlet weak var applyFilterButton: UIButton!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -28,9 +30,32 @@ class ViewController: UIViewController {
         }
         //此処でselectImageViewにimageを伝えてる
         photosCVC.selectPhoto.subscribe { [weak self] image in
+            DispatchQueue.main.async {
+                //UIを切り替えるのでメインスレッドで
+                self?.updateUI(for: image)
             
-            self?.selectImageView.image = image
+            }
         }.disposed(by: disposeBag) //川の流れを止める
+    }
+   
+    private func updateUI(for image: UIImage){
+        selectImageView.image = image
+    
+        applyFilterButton.isHidden = false
+    }
+    
+    @IBAction func applyFilterPressed() {
+        
+        guard let sourceImage = selectImageView.image else { return }
+        
+        FiltersService().applyFilter(to: sourceImage) { [ weak self ] filteredImage in
+            
+            DispatchQueue.main.async {
+                self?.selectImageView.image = filteredImage
+            }
+            
+        }
+        
     }
 
 
